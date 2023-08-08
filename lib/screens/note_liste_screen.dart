@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/note_event.dart';
-import '../bloc/note_state.dart';
-import '../model/note_model.dart';
-import '../bloc/note_bloc.dart';
+import 'package:test_todo/bloc/note_bloc.dart';
+import 'package:test_todo/bloc/note_event.dart';
+import 'package:test_todo/bloc/note_state.dart';
+import 'package:test_todo/model/note_model.dart';
 
-class NoteListView extends StatelessWidget {
+class NoteListView extends StatefulWidget {
+  @override
+  _NoteListViewState createState() => _NoteListViewState();
+}
+
+class _NoteListViewState extends State<NoteListView> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    // Appel pour charger les notes dès que le widget est construit
+  void initState() {
+    super.initState();
+    // Charger les notes dès que le widget est construit
     context.read<NoteBloc>().add(FetchNotes());
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Liste des Notes'),

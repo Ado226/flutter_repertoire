@@ -1,58 +1,58 @@
-import 'package:bloc/bloc.dart';
-import '../model/note_model.dart';
-import '../service/note_service.dart';
-import 'note_event.dart';
-import 'note_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_todo/bloc/note_event.dart';
+import 'package:test_todo/bloc/note_state.dart';
+import 'package:test_todo/model/note_model.dart';
+import 'package:test_todo/service/note_repository.dart';
+import 'package:test_todo/service/db_helper.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  final NoteService noteService;
+  final DbHelper dbHelper = DbHelper();
+  final Repository repository = Repository(DataProvider(DbHelper()));
 
-  NoteBloc({required this.noteService}) : super(NoteLoadingState()) {
+  NoteBloc(Repository repository) : super(NoteInitialState()) {
     on<FetchNotes>(_onFetchNotes);
     on<AddNote>(_onAddNote);
     on<UpdateNote>(_onUpdateNote);
     on<DeleteNote>(_onDeleteNote);
-
   }
-
 
   void _onFetchNotes(FetchNotes event, Emitter<NoteState> emit) async {
     emit(NoteLoadingState());
     try {
-      List<Note> notes = await noteService.getNotes();
+      final List<Note> notes = await repository.getAllNotes();
       emit(NoteLoadedState(notes));
     } catch (error) {
-      emit(NoteErrorState('Failed to fetch notes.'));
+      emit(NoteErrorState(error.toString()));
     }
   }
 
   void _onAddNote(AddNote event, Emitter<NoteState> emit) async {
     try {
-      await noteService.insertNote(event.note);
-      List<Note> notes = await noteService.getNotes();
-      emit(NoteLoadedState(notes));
+      await repository.addNote(event.note);
+      final List<Note> updatedNotes = await repository.getAllNotes();
+      emit(NoteLoadedState(updatedNotes));
     } catch (error) {
-      emit(NoteErrorState('Failed to add note.'));
+      emit(NoteErrorState(error.toString()));
     }
   }
 
   void _onUpdateNote(UpdateNote event, Emitter<NoteState> emit) async {
     try {
-      await noteService.updateNote(event.note);
-      List<Note> notes = await noteService.getNotes();
-      emit(NoteLoadedState(notes));
+      await repository.updateNote(event.note);
+      final List<Note> updatedNotes = await repository.getAllNotes();
+      emit(NoteLoadedState(updatedNotes));
     } catch (error) {
-      emit(NoteErrorState('Failed to update note.'));
+      emit(NoteErrorState(error.toString()));
     }
   }
 
   void _onDeleteNote(DeleteNote event, Emitter<NoteState> emit) async {
     try {
-      await noteService.deleteNote(event.id);
-      List<Note> notes = await noteService.getNotes();
-      emit(NoteLoadedState(notes));
+      await repository.deleteNoteById(event.noteId);
+      final List<Note> updatedNotes = await repository.getAllNotes();
+      emit(NoteLoadedState(updatedNotes));
     } catch (error) {
-      emit(NoteErrorState('Failed to delete note.'));
+      emit(NoteErrorState(error.toString()));
     }
   }
 }

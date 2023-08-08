@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
-
 class Note {
-  final int? id;
-  final String libelle;
-  final String description;
-  final String date;
+  int? id;
+  String libelle;
+  String description;
+  String date;
 
   Note({
     this.id,
@@ -22,21 +20,12 @@ class Note {
     };
   }
 
-  factory Note.fromMap(Map<String, dynamic> map) {
+  static Note fromMap(Map<String, dynamic> map) {
     return Note(
       id: map['id'],
       libelle: map['libelle'],
       description: map['description'],
       date: map['date'],
-    );
-  }
-
-  Note copy({int? id}) {
-    return Note(
-      id: id ?? this.id,
-      libelle: this.libelle,
-      description: this.description,
-      date: this.date,
     );
   }
 }

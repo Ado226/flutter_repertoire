@@ -27,10 +27,10 @@ class UpdateNote extends NoteEvent {
 }
 
 class DeleteNote extends NoteEvent {
-  final int id;
+  final int noteId;
 
-  DeleteNote(this.id);
+  DeleteNote(this.noteId);
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [noteId];
 }

@@ -6,6 +6,8 @@ abstract class NoteState extends Equatable {
   List<Object?> get props => [];
 }
 
+class NoteInitialState extends NoteState {}
+
 class NoteLoadingState extends NoteState {}
 
 class NoteLoadedState extends NoteState {
