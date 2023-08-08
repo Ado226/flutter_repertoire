@@ -17,7 +17,6 @@ class _NoteListViewState extends State<NoteListView> {
   @override
   void initState() {
     super.initState();
-    // Charger les notes dès que le widget est construit
     context.read<NoteBloc>().add(FetchNotes());
   }
 
@@ -57,7 +56,8 @@ class _NoteListViewState extends State<NoteListView> {
                       noteBloc.add(
                         AddNote(
                           Note(
-                            libelle: title,
+
+                            libelle: title, // Update this line
                             description: description,
                             date: DateTime.now().toString(),
                           ),
@@ -101,7 +101,7 @@ class _NoteListViewState extends State<NoteListView> {
                         onPressed: () {
                           context.read<NoteBloc>().add(DeleteNote(note.id!));
                         },
-                        color: Color(0xFFE57373), // Couleur de l'icône de suppression
+                        color: Color(0xFFE57373),
                       ),
                       IconButton(
                         icon: Icon(Icons.edit),
@@ -150,7 +150,7 @@ class _NoteListViewState extends State<NoteListView> {
                             ),
                           );
                         },
-                        color: Colors.black45, // Couleur de l'icône de modification
+                        color: Colors.black45,
                       ),
                     ],
                   ),
@@ -158,7 +158,7 @@ class _NoteListViewState extends State<NoteListView> {
               },
             );
           } else if (state is NoteErrorState) {
-            return Center(child: Text('Une erreur est survenue'));
+            return Center(child: Text(state.error));
           } else {
             return Container();
           }

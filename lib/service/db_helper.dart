@@ -29,7 +29,7 @@ class DbHelper {
     await db.execute('''
         CREATE TABLE notes(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          libelle TEXT,
+          title TEXT,
           description TEXT,
           date TEXT
         )

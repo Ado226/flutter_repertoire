@@ -7,17 +7,17 @@ class DataProvider {
   DataProvider(this.dbHelper);
 
   Future<List<Map<String, dynamic>>> readData() async {
-    final db = await dbHelper.database;
+    final db = await dbHelper.initDb(); // Utilisez initDb() au lieu de database
     return await db.query('notes');
   }
 
   Future<void> insertData(Note note) async {
-    final db = await dbHelper.database;
+    final db = await dbHelper.initDb(); // Utilisez initDb() au lieu de database
     await db.insert('notes', note.toMap());
   }
 
   Future<void> updateData(Note note) async {
-    final db = await dbHelper.database;
+    final db = await dbHelper.initDb(); // Utilisez initDb() au lieu de database
     await db.update(
       'notes',
       note.toMap(),
@@ -27,7 +27,7 @@ class DataProvider {
   }
 
   Future<void> deleteData(int id) async {
-    final db = await dbHelper.database;
+    final db = await dbHelper.initDb(); // Utilisez initDb() au lieu de database
     await db.delete(
       'notes',
       where: 'id = ?',
