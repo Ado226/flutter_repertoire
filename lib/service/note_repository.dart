@@ -47,27 +47,23 @@ class Repository {
   Repository(this.dataProvider);
 
   Future<List<Note>> getAllNotes() async {
-    final dbHelper = DbHelper(); // Initialisez DbHelper ici
     await dbHelper.initDb(); // Initialisez la base de données
     final List<Map<String, dynamic>> data = await dataProvider.readData();
     return data.map((map) => Note.fromMap(map)).toList();
   }
 
   Future<void> addNote(Note note) async {
-    final dbHelper = DbHelper(); // Initialisez DbHelper ici
-    await dbHelper.initDb(); // Initialisez la base de données
+    await dbHelper.initDb();
     await dataProvider.insertData(note);
   }
 
   Future<void> updateNote(Note note) async {
-    final dbHelper = DbHelper(); // Initialisez DbHelper ici
-    await dbHelper.initDb(); // Initialisez la base de données
+    await dbHelper.initDb();
     await dataProvider.updateData(note);
   }
 
   Future<void> deleteNoteById(int id) async {
-    final dbHelper = DbHelper(); // Initialisez DbHelper ici
-    await dbHelper.initDb(); // Initialisez la base de données
+    await dbHelper.initDb(); 
     await dataProvider.deleteData(id);
   }
 }
