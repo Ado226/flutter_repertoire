@@ -3,19 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_todo/bloc/note_bloc.dart';
 import 'package:test_todo/screens/note_liste_screen.dart';
 import 'package:test_todo/service/note_repository.dart';
-import 'package:test_todo/service/db_helper.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final dbHelper = DbHelper();
-  await dbHelper.initDb();
-  final dataProvider = DataProvider(dbHelper);
-  final repository = Repository(dataProvider);
-
+void main() {
   runApp(
     BlocProvider(
-      create: (context) => NoteBloc(repository),
+      create: (context) {
+        return NoteBloc(repository);
+      },
       child: MyApp(),
     ),
   );
